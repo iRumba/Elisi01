@@ -104,5 +104,28 @@ namespace Elisi01
 
             FilePath = dlgXml.FileName;
         }
+
+        public void SetFileError(string message)
+        {
+            errorProvider1.SetError(txtFilePath, message);
+        }
+
+        public void RaiseSomeException(Exception ex)
+        {
+            var currentEx = ex;
+            var sb = new StringBuilder();
+            while (currentEx != null)
+            {
+                sb.AppendLine(currentEx.Message);
+                currentEx = currentEx.InnerException;
+            }
+
+            MessageBox.Show(sb.ToString(), "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
+        }
+
+        private void txtFilePath_TextChanged(object sender, EventArgs e)
+        {
+            SetFileError(null);
+        }
     }
 }

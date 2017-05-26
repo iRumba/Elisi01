@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿using System.Collections.Generic;
 using System.Threading.Tasks;
 using Elisi01.Models;
 using System.IO;
@@ -25,7 +22,17 @@ namespace Elisi01
 
         public async Task<IEnumerable<LevelGaugeMeasure>> GetMeasuresAsync(string filePath)
         {
-            return await Task.Run(() => GetMeasures(filePath));
+            return await Task.Run(() =>
+            {
+                try
+                {
+                    return GetMeasures(filePath);
+                }
+                catch
+                {
+                    throw;
+                }
+            });
         }
     }
 }

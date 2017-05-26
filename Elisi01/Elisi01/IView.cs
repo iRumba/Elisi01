@@ -13,5 +13,7 @@ namespace Elisi01
         void LoadMeasures(IEnumerable<LevelGaugeMeasure> measures);
         event Action RaiseLoadMeasures;
         void Run();
+        void SetFileError(string message);
+        void RaiseSomeException(Exception ex);
     }
 }

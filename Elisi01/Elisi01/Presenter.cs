@@ -1,8 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.IO;
+using System.Security;
 
 namespace Elisi01
 {
@@ -20,7 +18,32 @@ namespace Elisi01
 
         private async void _view_RaiseLoadMeasures()
         {
-            _view.LoadMeasures(await _project.GetMeasuresAsync(_view.FilePath));
+            try
+            {
+                if (string.IsNullOrWhiteSpace(_view.FilePath))
+                {
+                    _view.SetFileError("Выберите файл");
+                    return;
+                }
+                    
+                _view.LoadMeasures(await _project.GetMeasuresAsync(_view.FilePath));
+            }
+            catch (FileNotFoundException)
+            {
+                _view.SetFileError("Файл не найден");
+            }
+            catch(DirectoryNotFoundException)
+            {
+                _view.SetFileError("Файл не найден");
+            }
+            catch(SecurityException)
+            {
+                _view.SetFileError("Нет доступа к файлу");
+            }
+            catch(Exception ex)
+            {
+                _view.RaiseSomeException(ex);
+            }
         }
 
         public void Run()
